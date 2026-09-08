@@ -419,11 +419,86 @@ String get profileMonitoringLabel {
     return 'Ambiente com fontes de risco elevado de CO e fumaça.'
     'Monitoramento contínuo e alertas antecipados ativados.';
   }
-  if (isHighOccupancy) {
-    return "High Occupancy";
+  if (isHighOccupancy && isLongDuration) {
+    return 'Ambiente coletivo com permanência prolongada. '
+      'Atenção especial à renovação do ar e qualidade geral.';
   }
-  if (isLongDuration) {
-    return "Long Duration";
+  if (ventilation == VentilationType.none) {
+    return 'Ambiente ventilação deficiente. '
+      'Limiares reduzidos para alertas mais precoces.';
   }
-  return "Standard";
+  return 'Perfil padrão configurado com base nas características do ambiente.';
+}
+
+Map <String, dynamic> toJson() => {
+  'location': location.name,
+  'environmentType': environmentType.name,
+  'roomSize': roomSize.name,
+  'ceilingHeight': ceilingHeight.name,
+  'ventilation': ventilation.name,
+  'occupancy': occupancy.name,
+  'duration': duration.name,
+  'pollutantSources': pollutantSources.map((s) => s.name).toList(),
+  'pollutantFrequency': pollutantFrequency.name,
+  'previousIncident': previousIncident.name,
+  'previousIncidentDescription': previousIncidentDescription,
+  'placement': placement.name,
+  'nearbyConditions': nearbyConditions.map((c) => c.name).toList(),
+};
+
+factory EnvironmentProfile.fromJson(Map<String, dynamic> json) => EnvironmentProfile(
+  location: InstallationLocation.values.byName(json['location']),
+  environmentType: EnvironmentType.values.byName(json['environmentType']),
+  roomSize: RoomSize.values.byName(json['roomSize']),
+  ceilingHeight: CeilingHeight.values.byName(json['ceilingHeight']),
+  ventilation: VentilationType.values.byName(json['ventilation']),
+  occupancy: OccupancyCount.values.byName(json['occupancy']),
+  duration: OccupancyDuration.values.byName(json['duration']),
+  pollutantSources: (json['pollutantSources'] as List).map((s) => PollutantSource.values.byName(s)).toList(),
+  pollutantFrequency: PollutantFrequency.values.byName(json['pollutantFrequency']),
+  previousIncident: PreviousIncident.values.byName(json['previousIncident']),
+  previousIncidentDescription: json['previousIncidentDescription'],
+  placement: DevicePlacement.values.byName(json['placement']),
+  nearbyConditions: (json['nearbyConditions'] as List).map((c) => NearbyCondition.values.byName(c)).toList(),
+);
+
+class CustomThresholds {
+  final double coWarningPpm;
+  final double coDangerPpm;
+  final double smokeWarningPpm;
+  final double smokeDangerPpm;
+
+  const CustomThresholds({
+    required this.coWarningPpm,
+    required this.coDangerPpm,
+    required this.smokeWarningPpm,
+    required this.smokeDangerPpm,
+  });
+
+  static const defaults = CustomThresholds(
+    coWarningPpm: 50,
+    coDangerPpm: 150,
+    smokeWarningPpm: 150,
+    smokeDangerPpm: 500,
+  );
+
+  bool get isCustomized => 
+    coWarningPpm != defaults.coWarningPpm ||
+    coDangerPpm != defaults.coDangerPpm ||
+    smokeWarningPpm != defaults.smokeWarningPpm ||
+    smokeDangerPpm != defaults.smokeDangerPpm;
+
+  Map <String, dynamic> ToJson() => {
+    'coWarningPpm': coWarningPpm,
+    'coDangerPpm': coDangerPpm,
+    'smokeWarningPpm': smokeWarningPpm,
+    'smokeDangerPpm': smokeDangerPpm,
+  };
+
+  factory CustomThresholds.fromJson(Map<String, dynamic> json) => CustomThresholds(
+    coWarningPpm: (json['coWarningPpm'] as num).toDouble(),
+    coDangerPpm: (json['coDangerPpm'] as num).toDouble(),
+    smokeWarningPpm: (json['smokeWarningPpm'] as num).toDouble(),
+    smokeDangerPpm: (json['smokeDangerPpm'] as num).toDouble(),
+  );
 }
