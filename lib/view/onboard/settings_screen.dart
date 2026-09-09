@@ -64,24 +64,31 @@ class _SettingsScreenState extends State<SettingsScreen> {
     useWebSocket: _useWebSocket,
   );
 
+  void _goHome(BuildContext context) {
+    Navigator.pushReplacementNamed(context, AppRoutes.home);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AM032Colors.bgPrimary,
-      appBar: AppBar(
-        title: const Text('Configurações'),
+    return PopScope<void>(
+      canPop: false,
+      onPopInvokedWithResult: (_, _) => _goHome(context),
+      child: Scaffold(
         backgroundColor: AM032Colors.bgPrimary,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, size: 18),
-          onPressed: () => Navigator.pop(context),
+        appBar: AppBar(
+          title: const Text('Configurações'),
+          backgroundColor: AM032Colors.bgPrimary,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios, size: 18),
+            onPressed: () => _goHome(context),
+          ),
         ),
-      ),
 
-      body: Consumer<SettingsViewModel>(
-        builder: (context, vm, _) {
-          return Form(
-            key: _formKey,
-            child: ListView(
+        body: Consumer<SettingsViewModel>(
+          builder: (context, vm, _) {
+            return Form(
+              key: _formKey,
+              child: ListView(
               padding: const EdgeInsets.fromLTRB(20, 8, 20, 24),
               children: [
                 _SectionHeader(title: 'Broker MQTT', icon: Icons.router_outlined),
@@ -250,22 +257,25 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 const SizedBox(height: 12),
 
                 ElevatedButton.icon(
-                  onPressed: () {
+                  onPressed: () async {
                     if (_formKey.currentState?.validate() ?? false) {
                       vm.updateConfig(_buildConfig());
-                      vm.saveAndApply().then((_) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: const Text('Configurações salvas e aplicadas'),
-                            backgroundColor: AM032Colors.statusGood,
-                            behavior: SnackBarBehavior.floating,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
+                      await vm.saveAndApply();
+
+                      if (!context.mounted) return;
+
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: const Text('Configurações salvas e aplicadas'),
+                          backgroundColor: AM032Colors.statusGood,
+                          behavior: SnackBarBehavior.floating,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
                           ),
-                        );
-                        Navigator.pop(context);
-                      });
+                        ),
+                      );
+
+                      _goHome(context);
                     }
                   },
                   icon: const Icon(Icons.save_outlined),
@@ -293,9 +303,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   child: const Text('Reiniciar Onboarding'),
                 ),
               ],
-            ),
-          );
-        },
+              ),
+            );
+          },
+        ),
       ),
     );
   }
@@ -423,7 +434,7 @@ class _AM032Toggle extends StatelessWidget {
           Switch(
             value: value,
             onChanged: onChanged,
-            activeColor: AM032Colors.accentBlue,
+            activeThumbColor: AM032Colors.accentBlue,
           ),
         ],
       ),

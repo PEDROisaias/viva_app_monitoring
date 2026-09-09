@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:fl_chart/fl_chart.dart';
 import '../../view_model/dashboard_view_model.dart';
 import '../../res/style/app_theme.dart';
+import '../../res/components/bottom_navigator.dart';
 
 enum ChartPeriod {
   today('Hoje', Duration(hours: 24)),
@@ -23,7 +24,6 @@ class HistoricScreen extends StatefulWidget{
 
 class _HistroricScreenState extends State<HistoricScreen> {
   ChartPeriod _selectedPeriod = ChartPeriod.today;
-  int? _hoveredIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -127,6 +127,8 @@ class _HistroricScreenState extends State<HistoricScreen> {
           },
         ),
       ),
+      bottomNavigationBar: const BottomNavigator(),
+
     );
   }
 }

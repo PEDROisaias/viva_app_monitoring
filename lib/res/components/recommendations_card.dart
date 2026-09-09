@@ -96,7 +96,7 @@ class _RecommendationItem extends StatelessWidget {
             width: 36,
             height: 36,
             decoration: BoxDecoration(
-              color: _itemColor.withOpacity(0.1),
+              color: _itemColor.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Center(

@@ -307,7 +307,7 @@ class _QuestionLabel extends StatelessWidget {
                 height: 24,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  color: AM032Colors.statusGood.withOpacity(0.15),
+                  color: AM032Colors.statusGood.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(6),
                 ),
                 child: Text(
@@ -378,7 +378,7 @@ class _SingleOption<T> extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
         decoration: BoxDecoration(
           color: selected
-              ? AM032Colors.statusGood.withOpacity(0.12)
+              ? AM032Colors.statusGood.withValues(alpha: 0.12)
               : AM032Colors.bgSurface,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
@@ -441,7 +441,7 @@ class _MultiOption<T> extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
         decoration: BoxDecoration(
           color: selected
-              ? AM032Colors.statusGood.withOpacity(0.12)
+              ? AM032Colors.statusGood.withValues(alpha: 0.12)
               : AM032Colors.bgSurface,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
@@ -480,7 +480,7 @@ class _MultiOption<T> extends StatelessWidget {
                 border: Border.all(
                   color: selected
                       ? AM032Colors.statusGood
-                      : AM032Colors.textSecondary.withOpacity(0.4),
+                      : AM032Colors.textSecondary.withValues(alpha: 0.4),
                   width: 1.5,
                 ),
               ),
@@ -742,10 +742,10 @@ class _PlacementWarningCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: AM032Colors.statusWarning.withOpacity(0.10),
+        color: AM032Colors.statusWarning.withValues(alpha: 0.10),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: AM032Colors.statusWarning.withOpacity(0.4),
+          color: AM032Colors.statusWarning.withValues(alpha: 0.4),
           width: 1,
         ),
       ),
@@ -853,10 +853,10 @@ class _Section5Confirmation extends StatelessWidget {
       Container(
         padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
-          color: AM032Colors.statusGood.withOpacity(0.08),
+          color: AM032Colors.statusGood.withValues(alpha: 0.08),
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: AM032Colors.statusGood.withOpacity(0.3),
+            color: AM032Colors.statusGood.withValues(alpha: 0.3),
           ),
         ),
         child: Column(
@@ -945,7 +945,7 @@ class _ConfirmCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 14),
-          Divider(color: AM032Colors.textSecondary.withOpacity(0.15), height: 1),
+          Divider(color: AM032Colors.textSecondary.withValues(alpha: 0.15), height: 1),
           const SizedBox(height: 12),
           ...children,
         ],
@@ -1054,9 +1054,9 @@ class _ThresholdBadge extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.12),
+        color: color.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: color.withOpacity(0.4)),
+        border: Border.all(color: color.withValues(alpha: 0.4)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

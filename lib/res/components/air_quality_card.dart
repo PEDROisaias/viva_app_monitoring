@@ -25,6 +25,7 @@ class _AirQualityCardState extends State<AirQualityCard> with SingleTickerProvid
 
   @override
   void initState() {
+    super.initState();
     _pulseController = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 2),
@@ -65,6 +66,8 @@ class _AirQualityCardState extends State<AirQualityCard> with SingleTickerProvid
       ),
       child: Column(
         children: [
+
+          // ── Cabeçalho ────────────────────────────────────────────────────
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -84,6 +87,7 @@ class _AirQualityCardState extends State<AirQualityCard> with SingleTickerProvid
           ),
 
           const SizedBox(height: 24),
+          // ── Gauge com pulso no PERIGO ─────────────────────────────────────          
           AnimatedBuilder(
             animation: _pulseAnim, 
             builder: (context, child) {
@@ -116,6 +120,7 @@ class _AirQualityCardState extends State<AirQualityCard> with SingleTickerProvid
                     ),
                   ),
 
+                  // Arco SVG do gauge
                   CustomPaint(
                     size: const Size(180, 180),
                     painter: _GaugePainter(
@@ -124,6 +129,7 @@ class _AirQualityCardState extends State<AirQualityCard> with SingleTickerProvid
                     ),
                   ),
 
+                  // Círculo central com ícone e label
                   AnimatedContainer(
                     duration: const Duration(milliseconds: 600),
                     width: 120,
@@ -131,7 +137,10 @@ class _AirQualityCardState extends State<AirQualityCard> with SingleTickerProvid
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: AM032Colors.bgPrimary,
-                      border: Border.all(color: statusColor.withAlpha(1), width: 2),
+                      border: Border.all(
+                        color: statusColor.withValues(alpha: 0.3),
+                        width: 2
+                      ),
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -166,7 +175,8 @@ class _AirQualityCardState extends State<AirQualityCard> with SingleTickerProvid
 
           const SizedBox(height: 24),
           const _QualityScale(),
-          
+
+          // ── Badge de offline ──────────────────────────────────────────────
           if (!widget.isDeviceOnline) ...[
             const SizedBox(height: 16),
             Container(
@@ -221,6 +231,7 @@ class _AirQualityCardState extends State<AirQualityCard> with SingleTickerProvid
   }
 }
 
+// ─── Gauge painter ────────────────────────────────────────────────────────────
 class _GaugePainter extends CustomPainter {
   final AirQualityState quality;
   final Color color;
@@ -241,6 +252,7 @@ class _GaugePainter extends CustomPainter {
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round;
 
+      // Trilha de fundo
       canvas.drawArc(
         Rect.fromCircle(center: center, radius: radius),
         startAngle,
@@ -255,7 +267,8 @@ class _GaugePainter extends CustomPainter {
         ..strokeWidth = 10
         ..style = PaintingStyle.stroke
         ..strokeCap = StrokeCap.round;
-      
+
+       // Progresso colorido
       canvas.drawArc(
         Rect.fromCircle(center: center, radius: radius),
         startAngle,
@@ -264,7 +277,7 @@ class _GaugePainter extends CustomPainter {
         progressPaint,
       );
 
-      _drawTickMarks(canvas, center, radius + 14, color);
+      _drawTickMarks(canvas, center, radius + 14);
   }
 
   double _qualityFraction(AirQualityState q) {
@@ -275,7 +288,7 @@ class _GaugePainter extends CustomPainter {
     }
   }
 
-  void _drawTickMarks(Canvas canvas, Offset center, double radius, Color accent) {
+  void _drawTickMarks(Canvas canvas, Offset center, double radius) {
     const tickAngles = [math.pi * 0.75, math.pi * 1.25, math.pi * 1.75];
     final colors = [AM032Colors.statusGood, AM032Colors.statusWarning, AM032Colors.statusDanger];
 
@@ -296,6 +309,7 @@ class _GaugePainter extends CustomPainter {
   bool shouldRepaint(_GaugePainter old) => old.quality != quality;
 }
 
+// ─── Escala de qualidade ──────────────────────────────────────────────────────
 class _QualityScale extends StatelessWidget {
   const _QualityScale();
 

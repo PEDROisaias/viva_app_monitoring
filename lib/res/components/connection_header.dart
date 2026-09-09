@@ -110,7 +110,7 @@ class _ConnectionBadgeState extends State<_ConnectionBadge> with SingleTickerPro
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: color.withOpacity(0.4)),
+        border: Border.all(color: color.withValues(alpha: 0.4)),
       ),
 
       child: Row(
@@ -119,6 +119,7 @@ class _ConnectionBadgeState extends State<_ConnectionBadge> with SingleTickerPro
           blinking
             ? AnimatedBuilder(
               animation: _blink,
+              // ignore: unnecessary_underscores
               builder: (_, __) => Opacity(
                 opacity: _blink.value,
                 child: _dot(color),

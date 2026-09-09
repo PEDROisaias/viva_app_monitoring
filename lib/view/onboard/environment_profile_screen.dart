@@ -28,7 +28,7 @@ class EnvironmentProfileScreen extends StatelessWidget {
                       width: 72,
                       height: 72,
                       decoration: BoxDecoration(
-                        color: AM032Colors.statusGood.withOpacity(0.12),
+                        color: AM032Colors.statusGood.withValues(alpha: 0.12),
                         shape: BoxShape.circle,
                       ),
                       child: Center(
@@ -131,10 +131,10 @@ class EnvironmentProfileScreen extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: AM032Colors.statusGood.withOpacity(0.08),
+                      color: AM032Colors.statusGood.withValues(alpha: 0.08),
                       borderRadius: BorderRadius.circular(14),
                       border: Border.all(
-                        color: AM032Colors.statusGood.withOpacity(0.3),
+                        color: AM032Colors.statusGood.withValues(alpha: 0.3),
                       ),
                     ),
                     child: Column(
@@ -275,7 +275,7 @@ class _ProfileCard extends StatelessWidget {
           ),
           const SizedBox(height: 14),
           Divider(
-            color: AM032Colors.textSecondary.withOpacity(0.15),
+            color: AM032Colors.textSecondary.withValues(alpha: 0.15),
             height: 1,
           ),
           const SizedBox(height: 12),
@@ -402,9 +402,9 @@ class _ThresholdChip extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
         decoration: BoxDecoration(
-          color: color.withOpacity(0.10),
+          color: color.withValues(alpha: 0.10),
           borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: color.withOpacity(0.35)),
+          border: Border.all(color: color.withValues(alpha: 0.35)),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -439,7 +439,7 @@ class _ThresholdChip extends StatelessWidget {
               Text(
                 'base: ${baseValue.toStringAsFixed(0)} ppm',
                 style: TextStyle(
-                  color: color.withOpacity(0.6),
+                  color: color.withValues(alpha: 0.6),
                   fontSize: 10,
                 ),
               ),
@@ -458,21 +458,25 @@ class _PlacementWarningBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final labels = conditions.map((c) => c.label).join(', ');
+
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: AM032Colors.statusWarning.withOpacity(0.08),
+        color: AM032Colors.statusWarning.withValues(alpha: 0.08),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: AM032Colors.statusWarning.withOpacity(0.35),
+          color: AM032Colors.statusWarning.withValues(alpha: 0.35),
         ),
       ),
+
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Icon(Icons.warning_amber_rounded,
               color: AM032Colors.statusWarning, size: 18),
+
           const SizedBox(width: 10),
+
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -485,7 +489,9 @@ class _PlacementWarningBanner extends StatelessWidget {
                     fontSize: 13,
                   ),
                 ),
+
                 const SizedBox(height: 4),
+                
                 Text(
                   'O VIVA está próximo de $labels, o que pode interferir '
                   'nas medições. Para resultados mais precisos, posicione-o '

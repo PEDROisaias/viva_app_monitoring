@@ -7,6 +7,7 @@ environment:
   sdk: ^3.9.2
 
 dependencies:
+  crypto: ^3.0.7
   fl_chart: ^1.2.0
   flutter:
     sdk: flutter
@@ -22,3 +23,6 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  assets: 
+    - assets/images/viva_logo.png
