@@ -1,12 +1,14 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:viva_app_monitoring/view_model/onboarding_view_model.dart';
 
 import '../models/sensor_reading.dart';
 import '../models/air_quality_status.dart';
 import '../models/device_heartbeat.dart';
 import '../models/mqtt_broker_config.dart';
 import '../models/mqtt_events.dart';
+import '../view_model/onboarding_view_model.dart';
 import '../repository/i_mqtt_repository.dart';
 import '../repository/mqtt_repository.dart';
 import '../data/local_storage_service.dart';
@@ -101,8 +103,14 @@ class DashboardViewModel extends ChangeNotifier{
     await _loadCachedData();
     _listenToMqttEvents();
     final savedConfig = await _storage.loadBrokerConfig();
-
     if (savedConfig != null) await connectToBroker(savedConfig);
+
+    final thresholds = await OnboardingViewModel.loadThresholds();
+    _coWarningPpm = thresholds.coWarningPpm;
+    _coDangerPpm = thresholds.coDangerPpm;
+    _smokeWarningPpm = thresholds.smokeWarningPpm;
+    _smokeDangerPpm = thresholds.smokeDangerPpm;
+
   }
 
   Future<void> _loadCachedData() async{

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:viva_app_monitoring/models/mqtt_broker_config.dart';
+import 'package:viva_app_monitoring/utils/routes/app_routes.dart';
 
 import '../../view_model/settings_view_model.dart';
 import '../../res/style/app_theme.dart';
@@ -276,6 +278,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
+                ),
+
+                ElevatedButton(
+                  onPressed:() async {
+                    final prefs = await SharedPreferences.getInstance();
+                    await prefs.remove('onboarding_done');
+                    if (!context.mounted) return;
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                      AppRoutes.onboarding,
+                      (_) => false,
+                    );
+                  },
+                  child: const Text('Reiniciar Onboarding'),
                 ),
               ],
             ),

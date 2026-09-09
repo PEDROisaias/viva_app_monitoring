@@ -86,7 +86,7 @@ enum CeilingHeight {
     CeilingHeight.from2_5to3_5 => '2,5 a 3,5 m',
     CeilingHeight.above3_5 => 'Acima de 3,5 m',
     CeilingHeight.unknown => 'Não sei',
-  }
+  };
 
   double get aproximatedHeight => switch (this) {
     CeilingHeight.upTo2_5 => 2.3,
@@ -155,13 +155,13 @@ enum OccupancyDuration {
   lessThan1h,
   oneToFour,
   fourToEight,
-  moreThan8,
+  moreThan8h;
 
   String get label => switch (this) {
     OccupancyDuration.lessThan1h => 'Menos de 1 hora',
     OccupancyDuration.oneToFour => '1 a 4 horas',
     OccupancyDuration.fourToEight => '4 a 8 horas',
-    OccupancyDuration.moreThan8 => 'Mais de 8 horas',
+    OccupancyDuration.moreThan8h => 'Mais de 8 horas',
   };
 }
  
@@ -354,7 +354,7 @@ class EnvironmentProfile {
     required this.nearbyConditions,
   });
 
-  double get environmentVolume => roomSize.approximateArea * ceilingHeight.approximateHeight;
+  double get environmentVolume => roomSize.aproximatedArea * ceilingHeight.aproximatedHeight;
 
   bool get hasPlacementWarning => nearbyConditions.any((c) => c.causesMeasurementInterference);
 
@@ -382,13 +382,13 @@ class EnvironmentProfile {
     final occupationDensity = occupancy.aproximatePeople / environmentVolume;
     final densityFactor = occupationDensity > 0.3 ? 0.85 : 1.0;
 
-    final coAdjust = confinementFactor * ventFactor * coSourceFactor * freqFactor * incidentFactor * densityFactor;
+    final coAdjust = confinementFactor * ventFactor * coSourcesFactor * freqFactor * incidentFactor * densityFactor;
     final smokeAdjust = confinementFactor * ventFactor * smokeSourceFactor * freqFactor * incidentFactor * densityFactor;
 
-    final coWarning = (baseCoWarning * coAdjust).clamp(20.0, 50.0).roundTodouble();
-    final coDanger = (baseCoDanger * coAdjust).clamp(70.0, 150.0).roundTodouble();
-    final smokeWarning = (baseSmokeWarning * smokeAdjust).clamp(60.0, 150.0).roundTodouble();
-    final smokeDanger = (baseSmokeDanger * smokeAdjust).clamp(200.0, 500.0).roundTodouble();
+    final coWarning = (baseCoWarning * coAdjust).clamp(20.0, 50.0).roundToDouble();
+    final coDanger = (baseCoDanger * coAdjust).clamp(70.0, 150.0).roundToDouble();
+    final smokeWarning = (baseSmokeWarning * smokeAdjust).clamp(60.0, 150.0).roundToDouble();
+    final smokeDanger = (baseSmokeDanger * smokeAdjust).clamp(200.0, 500.0).roundToDouble();
 
     return CustomThresholds(
       coWarningPpm: coWarning,
@@ -397,7 +397,6 @@ class EnvironmentProfile {
       smokeDangerPpm: smokeDanger,
     );
   }
-}
 
 double _confinementFactor() {
   if (environmentType == EnvironmentType.outdoorCovered) return 1.3;
@@ -408,7 +407,7 @@ double _confinementFactor() {
 }
 
 String get profileMonitoringLabel {
-  final isHighOccupancy = occupancy == OccupancyCount.eleventToTwenty || occupancy == OccupancyCount.aboveTwenty;
+  final isHighOccupancy = occupancy == OccupancyCount.elevenToTwenty || occupancy == OccupancyCount.aboveTwenty;
   final isLongDuration = duration == OccupancyDuration.fourToEight || duration == OccupancyDuration.moreThan8h;
   final hasCriticalSources = pollutantSources.any((s) => 
     s == PollutantSource.combustionVehicles || 
@@ -461,6 +460,7 @@ factory EnvironmentProfile.fromJson(Map<String, dynamic> json) => EnvironmentPro
   placement: DevicePlacement.values.byName(json['placement']),
   nearbyConditions: (json['nearbyConditions'] as List).map((c) => NearbyCondition.values.byName(c)).toList(),
 );
+}
 
 class CustomThresholds {
   final double coWarningPpm;
@@ -488,7 +488,7 @@ class CustomThresholds {
     smokeWarningPpm != defaults.smokeWarningPpm ||
     smokeDangerPpm != defaults.smokeDangerPpm;
 
-  Map <String, dynamic> ToJson() => {
+  Map <String, dynamic> toJson() => {
     'coWarningPpm': coWarningPpm,
     'coDangerPpm': coDangerPpm,
     'smokeWarningPpm': smokeWarningPpm,

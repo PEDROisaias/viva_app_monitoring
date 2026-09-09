@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../models/environment_profile.dart';
+import '../models/enviroment_profile.dart';
 
 const _kProfileKey = 'environment_profile';
 const _kOnboardingDoneKey = 'onboarding_done';

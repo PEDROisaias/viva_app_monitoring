@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../models/enviroment_profile.dart';
+import '../../res/style/app_theme.dart';
 import '../../view_model/onboarding_view_model.dart';
+import 'environment_profile_screen.dart';
 
 
 class OnboardingScreen extends StatefulWidget {
@@ -168,7 +171,7 @@ class _OnboardingHeader extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                 decoration: BoxDecoration(
-                  color: AM032Colors.cardBackground,
+                  color: AM032Colors.bgSurface,
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Text(
@@ -195,7 +198,7 @@ class _OnboardingHeader extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: i <= vm.currentStep
                         ? AM032Colors.statusGood
-                        : AM032Colors.cardBackground,
+                        : AM032Colors.bgSurface,
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),
@@ -237,7 +240,7 @@ class _OnboardingFooter extends StatelessWidget {
           onPressed: (vm.currentStepValid && !isSaving) ? onNext : null,
           style: ElevatedButton.styleFrom(
             backgroundColor: AM032Colors.statusGood,
-            disabledBackgroundColor: AM032Colors.cardBackground,
+            disabledBackgroundColor: AM032Colors.bgSurface,
             foregroundColor: Colors.black,
             disabledForegroundColor: AM032Colors.textSecondary,
             shape: RoundedRectangleBorder(
@@ -376,7 +379,7 @@ class _SingleOption<T> extends StatelessWidget {
         decoration: BoxDecoration(
           color: selected
               ? AM032Colors.statusGood.withOpacity(0.12)
-              : AM032Colors.cardBackground,
+              : AM032Colors.bgSurface,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
             color: selected ? AM032Colors.statusGood : Colors.transparent,
@@ -439,7 +442,7 @@ class _MultiOption<T> extends StatelessWidget {
         decoration: BoxDecoration(
           color: selected
               ? AM032Colors.statusGood.withOpacity(0.12)
-              : AM032Colors.cardBackground,
+              : AM032Colors.bgSurface,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
             color: selected ? AM032Colors.statusGood : Colors.transparent,
@@ -672,7 +675,7 @@ class _Section3Sources extends StatelessWidget {
               fontSize: 13,
             ),
             filled: true,
-            fillColor: AM032Colors.cardBackground,
+            fillColor: AM032Colors.bgSurface,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
               borderSide: BorderSide.none,
@@ -906,7 +909,7 @@ class _ConfirmCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AM032Colors.cardBackground,
+        color: AM032Colors.bgSurface,
         borderRadius: BorderRadius.circular(14),
       ),
       child: Column(
